@@ -1,0 +1,7 @@
+verilog xil_defaultlib  \
+"../../../../pcileech_Mumu_75T.gen/sources_1/ip/bram_pcie_cfgspace/sim/bram_pcie_cfgspace.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
