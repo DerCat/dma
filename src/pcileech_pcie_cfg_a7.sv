@@ -206,9 +206,13 @@ module pcileech_pcie_cfg_a7(
                 // Only allow writes to specific registers like Command, BARs, etc.
                 // For an ISA bridge, BARs are often fixed or I/O. Here they are 0.
                 // Command reg is usually R/W.
-                if (cfg_space_dword_addr == 1) { // Command Register at DWORD 1 (byte offset 0x04)
-                     emulated_cfg_bram[cfg_space_dword_addr] <= in_dout[63:32];
-                }
+            if (cfg_space_dword_addr == 1) begin // Command Register at DWORD 1 (byte offset 0x04)
+                // 只更新命令寄存器部分（低16位）
+                // 假设 in_dout[63:32] 是要写入的完整32位数据
+                emulated_cfg_bram[cfg_space_dword_addr][15:0] <= in_dout[47:32];
+                // 状态寄存器部分（31:16）通常不应该被配置写直接修改。
+                // 它应该由内部逻辑或硬件事件来更新。
+            end
                 // Add other writable registers if necessary.
                 // For now, only Command Register is explicitly made writable via FTDI.
                 // Other writes might be ignored or allowed based on detailed spec.
